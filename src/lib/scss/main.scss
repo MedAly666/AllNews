@@ -1,0 +1,18 @@
+$primary-color:#0001be;
+$background-color:#ffffff;
+$text-color: #1c0950;
+$font-family: 'Georgia, serif';
+
+
+:global(*){
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: 0;
+    font: $font-family;
+}
+
+button {
+    border: none;
+    background-color:$background-color;
+}
