@@ -1,77 +1,100 @@
 <script lang="ts">
-    import TopHeadlinesContainer from '$lib/TopHeadlinesContainer.svelte';
+    import SearchContainer from '$lib/components/SearchContainer.svelte';
+    import SlideShow from "$lib/components/SlideShow.svelte";
 
-    import { Bookmark, Search } from 'svelte-bootstrap-icons';
     import logoWord from '$lib/assets/AllNewsWord.png';
-
-    import type { PageData } from './$types';
-
-    const { data }: { data: PageData } = $props();
-    const topHeadlines = data.props.topHeadlines
-    
-
+    import { Download } from 'svelte-bootstrap-icons';
+    import CategoriesContainer from '$lib/components/CategoriesContainer.svelte';
 </script>
-<main>
-    <header>
+<svelte:head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4658166576330515"
+     crossorigin="anonymous"></script>
+</svelte:head>
+<header>
+    <img src="{logoWord}" alt="">
+    <button>
+        <Download />
+        <span>Download Our App</span>
+    </button>
+    <SearchContainer></SearchContainer>
+</header>
+<article>
+    <div class="topheadlines-container">
+        <SlideShow />
+    </div>
+    <div class="ads-container">
+        <p>This area is reserved for ads .</p>
         
-        <img src="{logoWord}" alt="">
-        <button>
-            <Bookmark width={32} height={32} fill="#0001be"/>
-        </button>
-        <button>
-            <Search width={32} height={32} fill="#0001be" />
-        </button>
-    </header>
-    <article>
-        {#if !topHeadlines}
-            <div>
-                Error
-            </div>
-        {/if}
-        <TopHeadlinesContainer {topHeadlines}></TopHeadlinesContainer>
-    </article>
-</main>
+    </div>
+    <CategoriesContainer />
+</article>
 
 <style lang="scss">
-    @use '$lib/scss/main.scss' as *;
+    @use '$lib/scss/main.scss' as * ;
 
-    main {
-        header{
-            width: 100%;
-            height: 70px;
+    header {
+        width: 100%;
+        height: 3rem ;
+        @include flex-row;
+        align-items: center;
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: start;
-            gap: 5px;
+        border-bottom: $default-border;
 
-            background-color: $background-color;
-            //border-bottom: solid 1px ;
-        
-            padding: 5px;
+        padding: 0.5rem;
 
-            box-shadow: 3px 4px 5px rgba(0,0,0,0.5);
+        *:nth-child(2){
+            margin-left: auto;
+        }
 
-            * {
-                height: 60px;
-            }
+        img {
+            height: 100%;
+        }
 
-            button {
-                width: 60px;
+        button {
+            height: 2rem;
+            @include primary-btn;
 
-                &:first-of-type {
-                    margin-left: auto;
+            border-radius: $default-border-radius;
+
+            @media (max-width: 800px) {
+                width: 2rem;
+
+                span {
+                    display: none;
                 }
             }
         }
 
-        article {
+        
+    }
+
+    article {
+        width: 100%;
+
+        padding: 0.2rem 0.5rem;
+
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        grid-gap: 1rem;
+
+        @media (max-width: 800px) {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .topheadlines-container {
             width: 100%;
-
-            padding: 5px;
-
+            
+            padding: 0.2rem ;
 
         }
+
+        .ads-container {
+            width: 100%;
+            height: 100%;
+
+            grid-column: 2 / -1;
+        }
+
     }
 </style>

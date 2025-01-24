@@ -1,0 +1,19 @@
+$primary-color:#0001be;
+$background-color:#ffffff;
+$secondary-background-color:#f2f2f5;
+$text-color: #1c0950;
+$font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+
+:global(*){
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: 0;
+    font-family: $font-family;
+}
+
+@mixin button {
+    border: none;
+    background-color:$background-color;
+}
