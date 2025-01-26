@@ -1,5 +1,5 @@
 <script lang="ts">
-    let { article = {} } = $props()
+    let { article = {} } = $props();
 </script>
 {#if Object.keys(article).length === 0 }
     <div class="card-placeholder"></div>
@@ -17,7 +17,7 @@
         </div>
         <div class="card-footer">
             <button>
-                <a href="{ article.url }">
+                <a target="_blank" href="{ article.url }">
                     Read More...
                 </a>
                 
@@ -36,6 +36,8 @@
 
         background-color: $secondary-background-color;
         border-radius: 2*$default-border-radius;
+
+        @include shimmer;
 
     }
 
@@ -63,6 +65,9 @@
             grid-template-columns: 3rem 1fr;
             gap: 0.2rem;
 
+            padding: 0.2rem 0.5rem;
+
+
             img {
                 width: 3rem;
                 height: 3rem;
@@ -81,6 +86,8 @@
         }
 
         .card-body {
+            padding: 0.2rem 0.5rem;
+
             * {
                 text-indent: 1rem;
             }
@@ -92,6 +99,11 @@
                 border-radius: $default-border-radius;
 
                 background-color: $secondary-background-color;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: $primary-color;
+                }
             }
 
 
@@ -99,14 +111,26 @@
         }
 
         .card-footer {
+            height: 3rem ;
+
+
+
             margin-top: auto;
+            padding: 0.2rem 0.5rem;
 
             button {
                 width: 140px;
+
+                
                 @include primary-btn;
 
                 padding: 0.2rem 0.5rem;
                 border-radius: $default-border-radius;
+
+                a {
+                    color: $background-color;
+                    text-decoration: none ;
+                }
             }
         }
     }

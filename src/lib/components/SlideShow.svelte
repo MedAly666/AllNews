@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ChevronLeft, ChevronRight } from 'svelte-bootstrap-icons';
+    import { ChevronLeft, ChevronRight, InfoCircle } from 'svelte-bootstrap-icons';
 
     let slideIndex = 2;
 
@@ -52,7 +52,7 @@
                         <span> { article.author } | { article.publishedAt}</span>
                     </div>
                     <h3>{ article.title }</h3>
-                    <p>{ article.description } <b><a href="{ article.url }"> Read More ...</a></b></p>
+                    <p>{ article.description } <b><a target="_blank" href="{ article.url }"> Read More ...</a></b></p>
                 </div>
             </div>
         {/each}
@@ -64,9 +64,10 @@
         </button>
     {:catch}
         <div>
-            <h2>Failed to load articles</h2>
+            <InfoCircle />
+            <h2>Failed to load articles.</h2>
             <p>
-                
+                Wait, we have some problems in our servers.
             </p>
         </div>
     {/await}
@@ -101,15 +102,15 @@
             background-color: $secondary-background-color;
 
 
+
             img{
                 display: block;
                 width: 100%;
                 height: 100%;
                 object-fit: contain; /* or cover */
-                border-radius: 0.5rem;
+                border-radius: 0.5rem; 
 
-
-
+                top:-25%;
             }
         }
 
@@ -121,6 +122,8 @@
             border-radius: 0.5rem;
 
             @include flex-center;
+
+            @include shimmer;
 
         }
 
@@ -142,7 +145,7 @@
             background-color: #00000000;
             color: $background-color;
             transition: 0.6s ease;
-            border-radius: 0 10px 10px 0;
+            border-radius: 0;
             user-select: none;
 
             /* On hover, add a black background color with a little bit see-through */
@@ -154,7 +157,6 @@
         
         .next {
             right: 0;
-            border-radius: 10px 0 0 10px;
         }
 
         .caption {
@@ -173,6 +175,11 @@
             justify-content: flex-end;
 
             padding: 10px;
+
+            a {
+                color: $background-color;
+                text-decoration: none ;
+            }
 
             .source {
                 width: 100%;
@@ -200,6 +207,8 @@
                     grid-column: 2/3;
                     grid-row: 2 / 3;
                 }
+
+                
             }
         }
 

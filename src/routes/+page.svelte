@@ -12,10 +12,11 @@
 </svelte:head>
 <header>
     <img src="{logoWord}" alt="">
-    <button>
+    <span></span>
+    <!--button>
         <Download />
         <span>Download Our App</span>
-    </button>
+    </button-->
     <SearchContainer></SearchContainer>
 </header>
 <article>
@@ -23,8 +24,16 @@
         <SlideShow />
     </div>
     <div class="ads-container">
-        <p>This area is reserved for ads .</p>
-        
+        <!-- general purpos ads -->
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-4658166576330515"
+            data-ad-slot="4725135102"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
     </div>
     <CategoriesContainer />
 </article>
@@ -37,6 +46,7 @@
         height: 3rem ;
         @include flex-row;
         align-items: center;
+        justify-content: flex-start;
 
         border-bottom: $default-border;
 
@@ -78,8 +88,7 @@
         grid-gap: 1rem;
 
         @media (max-width: 800px) {
-            display: grid;
-            grid-template-columns: 1fr;
+            @include flex-column;
         }
 
         .topheadlines-container {

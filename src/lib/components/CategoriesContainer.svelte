@@ -7,12 +7,8 @@
     const categories = ['General', 'Business', 'Sports', 'Health', 'Technology', 'Entertainment', 'Science'];
 
     async function fetchArticles(category:string):Promise<any[]> {
-        console.log('start fetching...')
         const response = await fetch(`/api/category/${category}`);
-
         const result = await response.json();
-        console.log(currentCategory,result.data.articles);
-        
         return result.data.articles;
     }
 
@@ -69,6 +65,8 @@
         justify-content: center;
         gap: 1rem;
 
+        overflow-x: scroll;
+
 
         position: sticky;
         top: 0;
@@ -83,7 +81,7 @@
 
             padding: 0 1rem;
             border: none;
-            border-radius: 1.5rem;
+            border-radius: 1rem;
 
 
             &.active {
