@@ -31,6 +31,19 @@
 
     let articles = getTopHeadlines();
 
+    function timeSince(dateString: string): string {
+        const date = new Date(dateString);
+        const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) return `${days} day${days > 1 ? 's' : ''}`;
+        if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''}`;
+        if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+        return `${seconds} second${seconds > 1 ? 's' : ''}`;
+    }
+
     
     
 </script>
@@ -44,12 +57,12 @@
     {:then articles}
         {#each articles as article}
             <div class="slides fade">
-                <img src={article.urlToImage} alt="">
+                <img loading="lazy" src={article.urlToImage} alt="">
                 <div class="caption">
                     <div class="source">
-                        <img src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} alt="">
+                        <img loading="lazy" src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} alt="">
                         <h4> { article.source.name }</h4>
-                        <span> { article.author } | { article.publishedAt}</span>
+                        <span> { article.author } | { timeSince(article.publishedAt) }</span>
                     </div>
                     <h3>{ article.title }</h3>
                     <p>{ article.description } <b><a target="_blank" href="{ article.url }"> Read More ...</a></b></p>

@@ -1,17 +1,29 @@
 <script lang="ts">
     let { article = {} } = $props();
+    function timeSince(dateString: string): string {
+        const date = new Date(dateString);
+        const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) return `${days} day${days > 1 ? 's' : ''}`;
+        if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''}`;
+        if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+        return `${seconds} second${seconds > 1 ? 's' : ''}`;
+    }
 </script>
 {#if Object.keys(article).length === 0 }
     <div class="card-placeholder"></div>
 {:else}
     <div class="card">
         <div class="card-header">
-            <img src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} alt="">
+            <img loading="lazy" src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} alt="">
             <p><b>{article.source.name}</b><br />
-            <small>{article.author} | { article.publishedAt }</small></p>
+            <small>{article.author} | { timeSince(article.publishedAt) }</small></p>
         </div>
         <div class="card-body">
-            <img src="{ article.urlToImage }" alt="">
+            <img loading="lazy" src="{ article.urlToImage }" alt="">
             <h3> {article.title}</h3>
             <p> {article.description}</p>
         </div>

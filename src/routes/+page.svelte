@@ -6,21 +6,7 @@
     import { Download } from 'svelte-bootstrap-icons';
     import CategoriesContainer from '$lib/components/CategoriesContainer.svelte';
 </script>
-<svelte:head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4658166576330515"
-    crossorigin="anonymous"></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PBW4EY84E6"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-PBW4EY84E6');
-    </script>
-
-</svelte:head>
 <header>
     <img src="{logoWord}" alt="">
     <span></span>

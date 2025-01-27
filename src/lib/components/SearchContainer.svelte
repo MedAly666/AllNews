@@ -53,7 +53,7 @@
                 <h3>Search result for '{searchKeyword}' : </h3>
                 {#each searchResults as article}
                     <div class="search-result">
-                        <img src={article.urlToImage} alt="">
+                        <img loading="lazy" src={article.urlToImage} alt="">
                         <h4>{article.title}</h4>
                         <p>
                             {article.description}
