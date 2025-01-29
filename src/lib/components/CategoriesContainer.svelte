@@ -65,7 +65,7 @@
         justify-content: center;
         gap: 1rem;
 
-        overflow-x: scroll;
+        overflow-x: auto;
 
 
         position: sticky;
@@ -88,6 +88,11 @@
                 background-color:$primary-color;
                 color: white;
             }
+        }
+
+        @media (max-width: 800px) {
+            justify-content: flex-start;
+
         }
     }
 

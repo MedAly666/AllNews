@@ -120,7 +120,7 @@
                 display: block;
                 width: 100%;
                 height: 100%;
-                object-fit: contain; /* or cover */
+                object-fit: cover; /* or cover */
                 border-radius: 0.5rem; 
 
                 top:-25%;

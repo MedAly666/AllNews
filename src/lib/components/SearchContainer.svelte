@@ -4,9 +4,7 @@
     let searchResultContainer: HTMLElement|undefined = $state(undefined);
     let searchKeyword = $state('');
 
-    async function search( keywords: string ) {
-        console.log(keywords);
-        
+    async function search( keywords: string ) {        
         if(keywords.length >= 3) {
             const res = await fetch(`/api/search/${keywords}`);
             let result = await res.json();  
@@ -118,15 +116,6 @@
 
         }
 
-        @media (max-width: 800px) {
-            width: 2rem;
-
-            @include flex-center;
-
-            input {
-                display: none;
-            }
-        }
 
         .search-result-container {
             width: 100%;

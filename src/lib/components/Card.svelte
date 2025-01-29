@@ -18,12 +18,21 @@
 {:else}
     <div class="card">
         <div class="card-header">
-            <img loading="lazy" src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} alt="">
-            <p><b>{article.source.name}</b><br />
-            <small>{article.author} | { timeSince(article.publishedAt) }</small></p>
+            <img
+                loading="lazy"
+                src={
+                    new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'
+                }
+                alt="The logo of {article.source.name}"
+            />
+            <p>
+                <b>{article.source.name}</b>
+                <br />
+                <small>{article.author} | { timeSince(article.publishedAt) }</small>
+            </p>
         </div>
         <div class="card-body">
-            <img loading="lazy" src="{ article.urlToImage }" alt="">
+            <img loading="lazy" src={ article.urlToImage } alt="Image of {article.title}">
             <h3> {article.title}</h3>
             <p> {article.description}</p>
         </div>
@@ -85,7 +94,10 @@
                 height: 3rem;
 
                 border-radius: 50%;
-                object-fit: contain;
+                object-fit: cover;
+
+                font-size: 0.5rem;
+
 
                 grid-column: 1 / 2;
 
@@ -107,6 +119,11 @@
                 width: 100%;
                 height: 200px;
                 object-fit: cover;
+                display: block;
+
+                font-size: 0.5rem;
+
+
 
                 border-radius: $default-border-radius;
 
@@ -131,17 +148,22 @@
             padding: 0.2rem 0.5rem;
 
             button {
-                width: 140px;
-
-                
                 @include primary-btn;
+
+                width: 140px;
+                height: 2rem;
 
                 padding: 0.2rem 0.5rem;
                 border-radius: $default-border-radius;
 
                 a {
+                    width: 100%;
+                    height: 100%;
+                    display: block;
+                    text-align: center;
                     color: $background-color;
                     text-decoration: none ;
+
                 }
             }
         }

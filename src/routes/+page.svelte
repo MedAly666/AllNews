@@ -3,12 +3,12 @@
     import SlideShow from "$lib/components/SlideShow.svelte";
 
     import logoWord from '$lib/assets/AllNewsWord.png';
-    import { Download } from 'svelte-bootstrap-icons';
+    import { Download, Github } from 'svelte-bootstrap-icons';
     import CategoriesContainer from '$lib/components/CategoriesContainer.svelte';
 </script>
 
 <header>
-    <img src="{logoWord}" alt="">
+    <img src="{logoWord}" alt="The All News Logo">
     <span></span>
     <!--button>
         <Download />
@@ -36,6 +36,40 @@
     </div>
     <CategoriesContainer />
 </article>
+<footer>
+    <div>
+        <h4>About us :</h4>
+        <p>
+            The All News is a news website that provides the latest news from around the world.
+        <h4>Powerd by </h4>
+        <div class="newsapi-logo-container">
+            <p>
+                <a target="_blank" href="https://newsapi.org/">NewsAPI</a>
+            </p>
+            <div class="newsapi-logo">
+                News
+                <span>
+                    API
+                </span>
+            </div>
+            
+        </div>
+        
+        
+    </div>
+    <div>
+        <h4>Contact us :</h4>
+        <ul>
+            <li>
+                <Github /> <a target="_blank" href="https://github.com/MedAly666/">Med Aly</a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        &copy; 2025 The All News <br />
+        All rights reserved
+    </div>
+</footer>
 
 <style lang="scss">
     @use '$lib/scss/main.scss' as * ;
@@ -59,7 +93,7 @@
             height: 100%;
         }
 
-        button {
+        /*button {
             height: 2rem;
             @include primary-btn;
 
@@ -72,7 +106,10 @@
                     display: none;
                 }
             }
-        }
+        }*/
+
+        
+        
 
         
     }
@@ -103,6 +140,66 @@
 
             grid-column: 2 / -1;
         }
+
+    }
+
+    footer {
+        width: 100%;
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+
+        padding: 1rem;
+        margin-top: 2rem;
+
+        background-color: $primary-color;
+        color: #ffffff;
+
+        p {
+            text-indent: 0.5rem;
+        }
+
+        a {
+            color: #ffffff;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        ul {
+            @include flex-column;
+            @include list;
+            align-items: flex-start;
+
+            li {
+                padding: 0.5rem;
+            }
+
+        }
+
+        .newsapi-logo-container {
+            @include flex-row;
+            gap: 0.5rem;
+            .newsapi-logo {
+                width: fit-content;
+                background-color: #ffffff;
+                color: $primary-color;
+
+                border: solid 2px #ffffff;
+                font-weight: bold;
+
+                padding: 2px;
+
+                span {
+                    padding: 2px 4px;
+                    background-color: $primary-color;
+                    color: #ffffff;
+                }
+            }
+        }
+
 
     }
 </style>
