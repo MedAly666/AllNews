@@ -57,15 +57,16 @@
     {:then articles}
         {#each articles as article, index}
             <div class="slides fade">
-                <img loading="lazy" src={article.urlToImage} alt="">
+                <img loading="lazy"
+                fetchpriority={ index == 0 ? 'high' : 'auto'  }
+                src={article.urlToImage} alt="">
                 <div class="caption">
                     <div class="source">
                         <img
                             loading="lazy" 
-                            fetchpriority={ index == 0 ? 'high' : 'auto'  }
                             src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} 
                             alt="">
-                        <h4> { article.source.name }</h4>
+                        <h4>{ article.source.name }</h4>
                         <span> { article.author } | { timeSince(article.publishedAt) }</span>
                     </div>
                     <h3>{ article.title }</h3>

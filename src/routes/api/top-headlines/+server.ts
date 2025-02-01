@@ -24,8 +24,7 @@ export const GET = async () => {
 
 
     const res = await fetch(`https://newsapi.org/v2/top-headlines?${paramsProcessed}`);
-    const data = res.ok ? await res.json() : { message : 'ERROR : Unable to connect with the API.'}
-    
+    const data = res.ok ? await res.json() : { message : 'ERROR : Unable to connect with the API.'}    
 
     return new Response(
         JSON.stringify({ data }),
