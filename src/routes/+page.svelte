@@ -182,6 +182,7 @@
         .newsapi-logo-container {
             @include flex-row;
             gap: 0.5rem;
+
             .newsapi-logo {
                 width: fit-content;
                 background-color: #ffffff;
@@ -190,7 +191,7 @@
                 border: solid 2px #ffffff;
                 font-weight: bold;
 
-                padding: 2px;
+                padding: 2px 0;
 
                 span {
                     padding: 2px 4px;
@@ -198,6 +199,12 @@
                     color: #ffffff;
                 }
             }
+        }
+
+        @media screen and (max-width: 800px) {
+            @include flex-column;
+            align-items: flex-start;
+            
         }
 
 

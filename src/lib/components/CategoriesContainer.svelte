@@ -90,7 +90,7 @@
             }
         }
 
-        @media (max-width: 800px) {
+        @media (max-width: 1000px) {
             justify-content: flex-start;
 
         }

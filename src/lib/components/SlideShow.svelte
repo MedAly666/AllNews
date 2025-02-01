@@ -55,12 +55,16 @@
             
         </div>
     {:then articles}
-        {#each articles as article}
+        {#each articles as article, index}
             <div class="slides fade">
                 <img loading="lazy" src={article.urlToImage} alt="">
                 <div class="caption">
                     <div class="source">
-                        <img loading="lazy" src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} alt="">
+                        <img
+                            loading="lazy" 
+                            fetchpriority={ index == 0 ? 'high' : 'auto'  }
+                            src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} 
+                            alt="">
                         <h4> { article.source.name }</h4>
                         <span> { article.author } | { timeSince(article.publishedAt) }</span>
                     </div>
@@ -121,6 +125,7 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover; /* or cover */
+                aspect-ratio: 16/9;
                 border-radius: 0.5rem; 
 
                 top:-25%;
@@ -196,16 +201,16 @@
 
             .source {
                 width: 100%;
-                height: 50px ;
+                height: 3rem ;
 
                 display: grid;
                 grid-template-columns: 50px 1fr;
-                column-gap: 5px;
+                column-gap: 0.5rem;
                 grid-template-rows: 1fr 1fr;
 
                 img {
-                    width: 40px;
-                    height: 40px;
+                    width: 3rem;
+                    height: 3rem;
 
                     background-color: $background-color;
 
@@ -219,6 +224,8 @@
                 span {
                     grid-column: 2/3;
                     grid-row: 2 / 3;
+
+                    font-size: 0.8rem;
                 }
 
                 

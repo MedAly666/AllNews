@@ -96,7 +96,7 @@
                 border-radius: 50%;
                 object-fit: cover;
 
-                font-size: 0.5rem;
+                font-size: 0.8rem;
 
 
                 grid-column: 1 / 2;
@@ -121,7 +121,7 @@
                 object-fit: cover;
                 display: block;
 
-                font-size: 0.5rem;
+                font-size: 0.8rem;
 
 
 
