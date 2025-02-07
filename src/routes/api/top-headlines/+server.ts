@@ -1,33 +1,11 @@
-import { API_KEY } from '$env/static/private'
-
-interface NewsApiParams {
-    language ?: string;
-    country  ?: string;
-    category ?: string;
-    sources  ?: string;
-    q        ?: string;
-    pageSize ?: number;
-    page     ?: number;
-}
-
-export const GET = async () => {
-    const params: NewsApiParams = {
-        country: 'us',
-        language : 'en'
-    };  
-
-    let paramsProcessed = `apiKey=${API_KEY}`;
-
-    for (const param of Object.keys(params) as (keyof NewsApiParams)[]) {
-        paramsProcessed += `&${param}=${params[param]}`;
-    }
+import { getTopHeadlines } from '$lib/utils';
 
 
-    const res = await fetch(`https://newsapi.org/v2/top-headlines?${paramsProcessed}`);
-    const data = res.ok ? await res.json() : { message : 'ERROR : Unable to connect with the API.'}    
+export const GET = async () => {    
+    let topHeadlines = getTopHeadlines();
 
     return new Response(
-        JSON.stringify({ data }),
+        JSON.stringify({ data : topHeadlines }),
         { status: 405 }
     );
 }

@@ -1,38 +1,16 @@
 <script lang="ts">
     import Card from "./Card.svelte";
 
-    let props = $props();
-    let currentCategory = $state(props.currentCategory || 'General');
+    let { articles } = $props();
+    let currentCategory = $state('General')
+
+    const newsCategories = ['General', 'Business', 'Sports', 'Health', 'Technology', 'Entertainment', 'Science'];
     
-    const categories = ['General', 'Business', 'Sports', 'Health', 'Technology', 'Entertainment', 'Science'];
-
-    async function fetchArticles(category:string):Promise<any[]> {
-        const response = await fetch(`/api/category/${category}`);
-        const result = await response.json();
-        return result.data.articles;
-    }
-
-    let articles = $derived(fetchArticles(currentCategory));
-    
-    //fetchArticles(currentCategory);
-
-    /*$effect( () => {
-        (async () => {
-            const response = await fetch(`/api/category/${currentCategory}`);
-
-            const result = await response.json();
-            console.log(result.data.articles);
-            
-            articles = result.data.articles;
-        })();
-    } );*/
-
-
     
 </script>
 
 <div class="categories-container">
-    {#each categories as category}
+    {#each newsCategories as category}
         <button 
             onclick={() => { currentCategory = category; }} 
             class="category-element { currentCategory == category ? 'active' : '' }">
@@ -41,17 +19,9 @@
     {/each}
 </div>
 <div class="cards-container">
-    {#await articles}
-        <Card />
-        <Card />
-        <Card />
-    {:then articles } 
-        {#each articles as article}
+        {#each articles[currentCategory.toLowerCase()] as article}
             <Card article={article} />
         {/each}
-    {:catch error}
-        <p>{error.message}</p>
-    {/await}
     
 </div>
 

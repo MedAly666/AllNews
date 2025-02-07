@@ -1,94 +1,52 @@
 <script lang="ts">
-    import { ChevronLeft, ChevronRight, InfoCircle } from 'svelte-bootstrap-icons';
+    import { ChevronLeft, ChevronRight } from 'svelte-bootstrap-icons';
 
-    let slideIndex = 2;
+    let { articles } = $props();
 
-    function plusSlides(n:number) {
-        showSlides(slideIndex += n);
-    }
+    let currentSlide = $state(0);
 
-    function showSlides(n:number) {
-       
-        let slides  =  Array.from( document.querySelectorAll(".slides") ) as HTMLElement[];
-        
-        if (n > slides.length) {slideIndex = 1}
-        if (n < 1) {slideIndex = slides.length}
-        for (let i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        
-        slides[slideIndex-1].style.display = "block";
-    } 
-
-
-    
-
-    async function getTopHeadlines(): Promise<any[]> {
-        const res = await fetch('/api/top-headlines');
-        let topHeadlines = await res.json();
-        return topHeadlines.data.articles;
-    };
-
-    let articles = getTopHeadlines();
-
-    function timeSince(dateString: string): string {
-        const date = new Date(dateString);
-        const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-
-        if (days > 0) return `${days} day${days > 1 ? 's' : ''}`;
-        if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''}`;
-        if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''}`;
-        return `${seconds} second${seconds > 1 ? 's' : ''}`;
-    }
-
-    
+    $effect(()=>{        
+        let slides = Array.from(document.querySelectorAll('.slide')) as HTMLElement[];
+        slides.forEach( (e) => { e.style.display = 'none'})
+        if( currentSlide > slides.length - 1 ) currentSlide = 0 ;
+        if( currentSlide < 0 ) currentSlide = slides.length - 1;
+        slides[currentSlide].style.display = 'block';
+    });
     
 </script>
 
 <div class="slides-container">
-
-    {#await articles}
-        <div class="slides-placeholder">
-            
-        </div>
-    {:then articles}
-        {#each articles as article, index}
-            <div class="slides fade">
-                <img loading="lazy"
-                fetchpriority={ index == 0 ? 'high' : 'auto'  }
-                src={article.urlToImage} alt="">
-                <div class="caption">
-                    <div class="source">
-                        <img
-                            loading="lazy" 
-                            src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} 
-                            alt="">
-                        <h4>{ article.source.name }</h4>
-                        <span> { article.author } | { timeSince(article.publishedAt) }</span>
-                    </div>
-                    <h3>{ article.title }</h3>
-                    <p>{ article.description } <b><a target="_blank" href="{ article.url }"> Read More ...</a></b></p>
+    {#each articles as article, index}
+        <div class="slide">
+            <img loading="lazy"
+            fetchpriority={ index == 0 ? 'high' : 'auto'  }
+            src={article.urlToImage} alt="">
+            <div class="caption">
+                <div class="source">
+                    <img
+                        loading="lazy" 
+                        src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} 
+                        alt="">
+                    <h5>{ article.source.name }</h5>
+                    <span> { article.author } | { article.publishedAt }</span>
                 </div>
+                <h4>{ article.title }</h4>
+                <p>{ article.description } <b><a target="_blank" href="{ article.url }"> Read More ...</a></b></p>
             </div>
-        {/each}
-        <button class="prev" onclick={() => plusSlides(-1)}>
-            <ChevronLeft />
-        </button>
-        <button class="next" onclick={() => plusSlides(1)}>
-            <ChevronRight />
-        </button>
-    {:catch}
-        <div>
-            <InfoCircle />
-            <h2>Failed to load articles.</h2>
-            <p>
-                Wait, we have some problems in our servers.
-            </p>
         </div>
-    {/await}
+    {/each}
+    <button 
+        class="prev"
+        onclick={ () => { currentSlide--} }
+    >
+        <ChevronLeft />
+    </button>
+    <button
+        class="next"
+        onclick={ () => { currentSlide++ } }
+    >
+        <ChevronRight />
+    </button>
 
     
 </div>
@@ -98,17 +56,16 @@
 
     .slides-container {
         width: 100%;
-        height: 450px;
         
         position: relative;
         display: block;
 
 
         
-        @include flex-row;
+        @include flex-column;
 
 
-        .slides {
+        .slide {
             width: 100%;
             height: 100%;
 
@@ -117,77 +74,64 @@
             border: $default-border;
             border-radius: 0.5rem;
 
-            background-color: $secondary-background-color;
 
+            &:first-child {
+                @include flex-column;
+            }
 
 
             img{
-                display: block;
                 width: 100%;
-                height: 100%;
                 object-fit: cover; /* or cover */
                 aspect-ratio: 16/9;
-                border-radius: 0.5rem; 
+                border-radius: 0.5rem 0.5rem 0 0;
 
-                top:-25%;
+                @include shimmer;
+
             }
         }
 
-        .slides-placeholder {
-            width: 100%;
-            height: 100%;
+        
 
-            background-color: $secondary-background-color;
-            border-radius: 0.5rem;
-
-            @include flex-center;
-
-            @include shimmer;
-
-        }
-
-        .slides:first-child {
-            display: block;
-        }
-
-        .prev, .next {
+        button {
             @include btn;
             
-            width: 90px;
-            height: 100%;
+            width: $default-height-m;
+            height: $default-height-m;
 
             cursor: pointer;
 
+            border-radius: 50%;
+
             position: absolute;
-            top: 0;
+            top: 25%;
+            align-self: flex-start;
+
+            margin: 0.5rem;
             
-            background-color: #00000000;
-            color: $background-color;
-            transition: 0.6s ease;
-            border-radius: 0;
+            background-color: $secondary-background-color;
+            color: $primary-color;
             user-select: none;
 
-            /* On hover, add a black background color with a little bit see-through */
             &:hover {
-                background-color: rgba( $background-color,0.2);
+                background-color: $primary-color;
+                color: $background-color;
+
             }
 
         }
         
         .next {
-            right: 0;
+            
+            align-self: flex-end;
         }
 
         .caption {
             width: 100%;
-            height: 55%;
             
-            color: $background-color;
-            background: linear-gradient(to top,rgba( 0, 0, 0, 0.8),rgba( 242, 242, 245, 0.0) );
             border-radius: 10px;
 
-            position: absolute;
-            bottom: 0px;
+            
             
             display: flex;
             flex-direction: column;
@@ -196,7 +140,7 @@
             padding: 10px;
 
             a {
-                color: $background-color;
+                
                 text-decoration: none ;
             }
 
@@ -220,6 +164,8 @@
                     grid-row: 1 / -1 ;
 
                     border-radius: 50%;
+
+                    border: $default-border;
                 }
 
                 span {
@@ -233,22 +179,6 @@
             }
         }
 
-        
-        .fade {
-            animation-name: fade;
-            animation-duration: 1s;
-        }
-
-
-    }
-
-    @keyframes fade {
-        from {
-            opacity: .4
-        }
-        to {
-            opacity: 1
-        }
     }
 </style>
 

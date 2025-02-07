@@ -1,0 +1,24 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+Disallow: /private/
+Disallow: /comments/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /search
+
+Allow: /news/
+Allow: /articles/
+Allow: /category/
+Allow: /tags/
+Allow: /images/
+
+User-agent: Googlebot-News
+Allow: /news/
+Allow: /articles/
+
+User-agent: Googlebot-Image
+Allow: /images/
+
+Sitemap: https://www.example.com/sitemap.xml

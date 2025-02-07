@@ -1,76 +1,100 @@
 <script lang="ts">
-    import { ArrowLeft, InfoCircle, Search } from "svelte-bootstrap-icons";
+    import { InfoCircle, Search, XCircle } from "svelte-bootstrap-icons";
     import Card from "./Card.svelte";
+    import Dialog from "./Dialog.svelte";
+    
+    let searchKeyword = $state('');
 
-    let searchContainer: HTMLDivElement;    let searchResultContainer: HTMLDivElement;
-    let searchKeyword = $state('');    let searchDialog: HTMLDialogElement;
+    let searchContainer: HTMLDivElement;
+    let searchResultContainer: HTMLDivElement;
+    let isOpenSearchDialog = $state(false);
+
+    let searchResults = $derived(search(searchKeyword));
 
     async function search( keywords: string ) {        
         if(keywords.length >= 3) {
             const res = await fetch(`/api/search/${keywords}`);
             let result = await res.json();  
                       
-            return result.data.articles;
+            return result.data;
         }
     }
-
-    let searchResults = $derived(search(searchKeyword));
     
 </script>
 
 <div class="search-container" bind:this={searchContainer}>
-    <button onclick={ () => {searchDialog.showModal()} }>
+    <button onclick={ () => { isOpenSearchDialog = true } }>
         <Search />
     </button>
+    <Dialog bind:isOpen={isOpenSearchDialog} >
 
-    <dialog
-        bind:this={searchDialog}
-        >
-        <button class="btn-back" onclick={ () => {searchDialog.close()} }>
-            <ArrowLeft />
-        </button>
-        <input
-            type="text"
-            placeholder="Search..."
-            bind:value={searchKeyword}
+        {#snippet header()}
+            <div class="header-container">
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    bind:value={searchKeyword}
+                >
+                <button class="btn-search">
+                    <Search />
+                </button>
+                
+            </div>
+        {/snippet}
+
+        {#snippet body()}
+        <div 
+            class="body-container"
+            bind:this={searchResultContainer}
             >
-        <button class="btn-search">
-            <Search />
-        </button>
-        <div class="search-result-container" bind:this={searchResultContainer}>
-            <h3>Search result for "{searchKeyword}" : </h3>
-            {#await searchResults}
-                <Card />
-                <Card />
-                <Card />
-            {:then searchResults}
-                <!--{#if searchResults.length === 0}
-                    <div class="search-result">
-                        <InfoCircle />
-                        <h4>No results found</h4>
-                    </div>
-                {:else}-->
+
+            {#if searchKeyword.length < 3}
+                <div class="ads-container">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4658166576330515"
+                        crossorigin="anonymous"></script>
+                    <!-- general purpos ads -->
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-4658166576330515"
+                        data-ad-slot="4725135102"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            {:else}
+                <h3>Search result for "{searchKeyword}" : </h3>
+                {#await searchResults}
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                {:then searchResults}
                     {#each searchResults as article}
                         <Card article={article} />
                     {/each}
-                <!--{/if}-->
-            {:catch error}
-                <div class="search-result">
-                    <InfoCircle />
-                    <h4>Error</h4>
-                    <p>{error.message}</p>
-                </div>
-            {/await}
-        </div>
-    </dialog>
+                {:catch error}
+                    <div class="search-result">
+                        <InfoCircle />
+                        <h4>Error</h4>
+                        <p>{error.message}</p>
+                    </div>
+                {/await}
+            {/if}
+            
+        </div>            
+        {/snippet}
+    </Dialog>
+        
 </div>
 
 <style lang="scss">
     @use '$lib/scss/main.scss' as * ;
 
     .search-container {
-        width: 2rem;
-        height: 2rem;
+        width: $default-height-s;
+        height: $default-height-s;
 
         display: grid;
         place-content: center;
@@ -80,63 +104,49 @@
             
         }
 
-        dialog {
-            width: 60%;
-            height: 80%;
+        .header-container {
+            width: 100%;
+            height: $default-height-m;
 
-            background-color: $background-color;
+            @include flex-row;
 
-            position: fixed;
+            button {
+                @include btn;
 
-            display: grid;
-            grid-template-columns: 3rem 1fr 3rem;
-            grid-template-rows: 3rem 1fr;
-
-            place-self: center;
-
-            padding: 0.2rem 0.5rem;
-
-            border-radius: 0.5rem;
-
-            display: none;
-
-            overflow-y: hidden;
-
-            &[open] {
-                display: grid;
-            }   
-            
-            @media (max-width: 800px) {
-                min-width: 100vw;
-                height: 100vh;
-
-                border-radius: 0;
-
-
-                place-self: stretch;
+                width: $default-height-s;
+                height: $default-height-s;
             }
 
-            .search-result-container{
-                width: 100%;
+            input {
+                height: $default-height-s;
 
+                padding: 0.2rem 0.5rem;
 
-                grid-column: 1/-1;
+                flex-grow: 1;
 
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-                gap: 1rem;
-
-                padding: 0.5rem 0;
-
-                border-top: $default-border;
-
-                overflow-y: scroll;
-
-                h3 {
-                    height: 2rem;
-                    grid-column: 1/-1;
-                }
             }
         }
+
+        .body-container{
+            width: 100%;
+
+
+            grid-column: 1/-1;
+
+            display: grid;
+            grid-auto-rows: 2rem repeat(auto-fill, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1rem;
+
+            padding: 0.5rem 0;
+
+
+            overflow-y: scroll;
+
+            h3 {
+                height: 2rem;
+                grid-column: 1/-1;
+            }
+        } 
     }
 </style>
