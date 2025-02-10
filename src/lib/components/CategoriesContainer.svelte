@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Card from "./Card.svelte";
+    import Card from "./NewsCard.svelte";
 
     let { articles } = $props();
     let currentCategory = $state('General')

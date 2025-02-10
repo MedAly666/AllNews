@@ -1,7 +1,7 @@
 <script lang="ts">
     import { XCircle } from "svelte-bootstrap-icons";
 
-    let { isOpen = $bindable(), header, body, footer = null } = $props();
+    let { isOpen = $bindable(), dialogHeader , dialogBody, dialogFooter = null } = $props();
 
     let dialog:HTMLDialogElement;
 
@@ -13,24 +13,27 @@
 
 <dialog
     bind:this={dialog}>
-    {#if header}
+    {#if dialogHeader}
         <div class="dialog-header">
-            {@render header()}
-            <button class="btn-close" onclick={() => { isOpen = false }}>
+            {@render dialogHeader()}
+            <button
+                class="btn-close"
+                onclick={() => { isOpen = false }}
+                >
                 <XCircle />
             </button>
         </div>
     {/if}
 
-    {#if body}
+    {#if dialogBody}
         <div class="dialog-body">
-            {@render body()}
+            {@render dialogBody()}
         </div>
     {/if}
 
-    {#if footer}
+    {#if dialogFooter}
         <div class="dialog-footer">
-            {@render footer()}
+            {@render dialogFooter()}
         </div>
     {/if}
     

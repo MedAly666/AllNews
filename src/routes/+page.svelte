@@ -44,7 +44,7 @@
         grid-template-columns: 1fr 1fr;
         grid-gap: 1rem;
 
-        @media (max-width: 800px) {
+        @media (max-width: 1000px) {
             @include flex-column;
         }
 
