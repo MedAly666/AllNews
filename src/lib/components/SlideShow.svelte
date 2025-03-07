@@ -13,6 +13,7 @@
         <Slide>
             <div class="slide-content">
                 <img
+                loading="lazy"
                 fetchpriority={ index == 0 ? 'high' : 'auto'  }
                 referrerpolicy="no-referrer" 
                 crossorigin="anonymous"
