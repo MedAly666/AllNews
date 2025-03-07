@@ -7,6 +7,8 @@ export const GET = async ({url}) => {
         
     return new Response(
         JSON.stringify({ data }),
-        { status: 405 }
+        {
+            status: 200
+        }
     );
 }

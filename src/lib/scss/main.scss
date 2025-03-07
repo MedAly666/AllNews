@@ -26,6 +26,11 @@ $default-padding: 0.2rem 0.5rem;
     border: none;
 }
 
+:global(a){
+    text-decoration: none;
+    color: $text-color;
+}
+
 @mixin flex-row {
     display: flex;
     flex-direction: row;
@@ -49,6 +54,11 @@ $default-padding: 0.2rem 0.5rem;
     background-color:$background-color;
 
     padding: $default-padding;
+
+    &:hover {
+        cursor: pointer;
+        filter: brightness(0.9);
+    }
 }
 
 @mixin primary-btn {

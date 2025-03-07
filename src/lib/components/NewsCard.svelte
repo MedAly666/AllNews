@@ -1,6 +1,6 @@
 <script lang="ts">
     import Card from './Card/Card.svelte';
-    import CardDialog from './CardDialog.svelte';
+    import CardDialog from './NewsDialog.svelte';
 
     let { article = {} } = $props();
     
@@ -16,9 +16,11 @@
             <div class="header-container">
                 <img
                     loading="lazy"
-                    src={
+                    referrerpolicy="no-referrer" 
+     crossorigin="anonymous"
+                    src="/api/image?url={
                         new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'
-                    }
+                    }"
                     alt="The logo of {article.source.name}"
                 />
                 <p>
@@ -35,7 +37,9 @@
                 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
                 <img 
                     loading="lazy"
-                    src={ article.urlToImage }
+                    referrerpolicy="no-referrer" 
+     crossorigin="anonymous"
+                    src="/api/image?url={ article.urlToImage }"
                     alt="Image of {article.title}"
                     onclick={() => { isOpenCardDialog = true }}
                     >
@@ -105,8 +109,11 @@
 
         img {
             width: 100%;
-            height: 200px;
+        
             object-fit: cover;
+
+            aspect-ratio: 16/9;
+
             display: block;
 
             font-size: 0.8rem;

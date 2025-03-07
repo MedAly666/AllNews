@@ -9,5 +9,6 @@
 <style lang="scss">
     .slide {
         width: 100%;
+        
     }
 </style>

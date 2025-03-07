@@ -11,9 +11,11 @@
         <div class="header-container">
             <img
                 loading="lazy"
-                src={
+                referrerpolicy="no-referrer" 
+                crossorigin="anonymous"
+                src="/api/image?url={
                     new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'
-                }
+                }"
                 alt="The logo of {article.source.name}"
             />
             <p>
@@ -26,7 +28,13 @@
             
         {#snippet dialogBody()}
             <div class="body-container">
-                <img loading="lazy" src={ article.urlToImage } alt="Image of {article.title}">
+                <img 
+                    loading="lazy"
+                    referrerpolicy="no-referrer" 
+     crossorigin="anonymous"
+                    src="/api/image?url={ article.urlToImage }"
+                    alt="Image of {article.title}"
+                    >
                 <h3>
                     {article.title}
                 </h3>
