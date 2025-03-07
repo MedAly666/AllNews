@@ -12,14 +12,21 @@
     {#each articles as article, index}
         <Slide>
             <div class="slide-content">
-                <img loading="lazy"
+                <img
                 fetchpriority={ index == 0 ? 'high' : 'auto'  }
-                src={article.urlToImage} alt="">
+                referrerpolicy="no-referrer" 
+                crossorigin="anonymous"
+                src="/api/image?url={article.urlToImage}"
+                alt="">
                 <div class="caption">
                     <div class="source">
                         <img
                             loading="lazy" 
-                            src={new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'} 
+                            referrerpolicy="no-referrer" 
+                            crossorigin="anonymous"
+                            src="/api/image?url={
+                                new URL(article.url).protocol + '//' + new URL(article.url).host + '/favicon.ico'
+                            }"
                             alt="Icon of { article.source.name }">
                         <p>
                             <b>{ article.source.name }</b> <br />
@@ -52,6 +59,9 @@
 
         @include flex-column;
         gap: 0.2rem;
+
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
 
 
         img{

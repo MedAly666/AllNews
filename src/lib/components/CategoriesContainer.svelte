@@ -53,6 +53,8 @@
             border: none;
             border-radius: 1rem;
 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
 
             &.active {
                 background-color:$primary-color;

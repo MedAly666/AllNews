@@ -88,10 +88,13 @@
                 .btn-close {
                     @include btn;
 
-                    width: $default-height-m;
+                    width: $default-height-s;
+                    height: $default-height-s;
 
-                    border-top-right-radius: 0.5rem;
-                    
+                    border-radius: 50%;
+
+                    @include flex-center;
+
                 }
             }
 

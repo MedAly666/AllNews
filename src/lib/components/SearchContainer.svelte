@@ -29,7 +29,6 @@
         display: grid;
         place-content: center;
         
-        
         button {
             @include btn;
             
