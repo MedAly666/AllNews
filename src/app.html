@@ -1,12 +1,92 @@
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+<html lang="en" class="dark">
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title>The All News - Latest Global News Coverage</title>
+	<meta name="description"
+		content="The All News provides comprehensive, unbiased news coverage from trusted sources around the world. Stay informed with the latest breaking news on politics, business, technology, and more.">
+	<meta name="keywords"
+		content="breaking news, world news, international news, latest headlines, news aggregator, daily news updates, global news coverage">
+	<meta name="author" content="The All News">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- SEO meta tags -->
+	<meta name="robots" content="index, follow, max-image-preview:large">
+	<meta name="googlebot" content="index, follow">
+	<meta name="bingbot" content="index, follow">
+	<meta name="yandex" content="index, follow">
+	<meta name="referrer" content="no-referrer-when-downgrade">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="theme-color" content="#4a5568">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<!-- Canonical URL -->
+	<link rel="canonical" href={currentUrl}>
+
+	<!-- Favicon and app icons -->
+	<link rel="icon" type="image/png" href="/favicon.png">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content={currentUrl}>
+	<meta property="og:title" content="The All News - Latest Global News Coverage">
+	<meta property="og:description"
+		content="Comprehensive, unbiased news coverage from trusted sources around the world.">
+	<meta property="og:image" content="https://theallnews.vercel.app/og-image.jpg">
+	<meta property="og:site_name" content="The All News">
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:url" content={currentUrl}>
+	<meta name="twitter:title" content="The All News - Latest Global News Coverage">
+	<meta name="twitter:description"
+		content="Comprehensive, unbiased news coverage from trusted sources around the world.">
+	<meta name="twitter:image" content="https://theallnews.vercel.app/og-image.jpg">
+
+	<!-- JSON-LD Structured Data for News Website -->
+	<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsMediaOrganization",
+      "name": "The All News",
+      "url": "https://theallnews.vercel.app/",
+      "logo": "https://theallnews.vercel.app/favicon.png",
+      "sameAs": [
+        "https://github.com/MedAly666"
+      ],
+      "description": "The All News provides comprehensive, unbiased news coverage from trusted sources around the world."
+    }
+    </script>
+
+	<!-- Google AdSense -->
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4658166576330515"
+		crossorigin="anonymous"></script>
+
+	<!-- Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-PBW4EY84E6"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'G-PBW4EY84E6', {
+			'anonymize_ip': true,
+			'cookie_expires': 365 * 24 * 60 * 60
+		});
+	</script>
+
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+	%sveltekit.head%
+</head>
+
+<body data-sveltekit-preload-data="hover" class="bg-white dark:bg-slate-900">
+	<div style="display: contents">%sveltekit.body%</div>
+</body>
+
 </html>

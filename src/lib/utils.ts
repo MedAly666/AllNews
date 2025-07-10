@@ -1,4 +1,4 @@
-import { API_KEY } from "$env/static/private";
+import { NEWS_API_KEY } from "$env/static/private";
 
 function timeSince(dateString: string | undefined): string {
     if (!dateString) return 'Unknown';
@@ -15,53 +15,53 @@ function timeSince(dateString: string | undefined): string {
 }
 
 export interface NewsApiParams {
-    language ?: string ;
-    country  ?: string ;
-    category ?: string ;
-    sources  ?: string ;
-    q        ?: string ;
-    pageSize ?: number ;
-    page     ?: number ;
+    language?: string;
+    country?: string;
+    category?: string;
+    sources?: string;
+    q?: string;
+    pageSize?: number;
+    page?: number;
 }
 
 export interface NewsApiResponse {
-    status       ?: string        ;
-    totalResults ?: number        ;
-    articles     ?: NewsArticle[] ;
+    status?: string;
+    totalResults?: number;
+    articles?: NewsArticle[];
 }
 
 export interface NewsArticle {
-    source      ?: NewsSource ;
-    author      ?: string     ;
-    title       ?: string     ;
-    description ?: string     ;
-    url         ?: string     ;
-    urlToImage  ?: string     ;
-    publishedAt ?: string     ;
-    content     ?: string     ;
+    source: NewsSource;
+    author: string;
+    title: string;
+    description: string;
+    url: string;
+    urlToImage: string;
+    publishedAt: string;
+    content: string;
 }
 
 export interface NewsSource {
-    id   ?: string ;
-    name ?: string ;
+    id: string;
+    name: string;
 }
 
 export interface NewsApiError {
-    message ?: string ;
-    code    ?: string ;
+    message?: string;
+    code?: string;
 }
 
 export const newsCategories = ['General', 'Business', 'Sports', 'Health', 'Technology', 'Entertainment', 'Science'];
 
 
 export const getNews = async (
-    params:NewsApiParams = {
-        country  : 'us' ,
-        language : 'en'
+    params: NewsApiParams = {
+        country: 'us',
+        language: 'en'
     },
     endpoint: 'top-headlines' | 'everything' | 'top-headlines/sources' = 'top-headlines'
 ) => {
-    let paramsProcessed = `apiKey=${API_KEY}`;    
+    let paramsProcessed = `apiKey=${NEWS_API_KEY}`;
 
     for (const param of Object.keys(params) as (keyof NewsApiParams)[]) {
         paramsProcessed += `&${param}=${params[param]}`;
@@ -69,16 +69,16 @@ export const getNews = async (
 
     const res = await fetch(`https://newsapi.org/v2/${endpoint}?${paramsProcessed}`);
     const data = await res.json()
-    
-    if(data.status === 'error'){
-        if( data.code == 'rateLimited' ){
+
+    if (data.status === 'error') {
+        if (data.code == 'rateLimited') {
             console.log('ERROR : Too many requests.');
-            
+
             return [] as NewsArticle[];
-        } 
-        else{
+        }
+        else {
             console.log(data);
-            throw new Error('ERROR : Unable to connect with the API.');    
+            throw new Error('ERROR : Unable to connect with the API.');
         }
     }
 
@@ -89,12 +89,12 @@ export const getNews = async (
     return data.articles as NewsArticle[];
 }
 
-export const getTopHeadlines   = async () =>  getNews();
+export const getTopHeadlines = async () => getNews();
 
-export const getNewsByCategory = async (category:string) => getNews({ category }, 'top-headlines');
+export const getNewsByCategory = async (category: string) => getNews({ category }, 'top-headlines');
 
-export const getNewsSources    = async () => getNews({}, 'top-headlines/sources');
+export const getNewsSources = async () => getNews({}, 'top-headlines/sources');
 
-export const getNewsBySource   = async (sources:string) => getNews({ sources }, 'top-headlines');
+export const getNewsBySource = async (sources: string) => getNews({ sources }, 'top-headlines');
 
-export const getNewsByQuery    = async (q:string) => getNews({ q }, 'everything');
+export const getNewsByQuery = async (q: string) => getNews({ q }, 'everything');
