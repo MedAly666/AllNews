@@ -1,4 +1,6 @@
-import { NEWS_API_KEY } from "$env/static/private";
+import { NEWS_API_KEY, GEMINI_API_KEY } from "$env/static/private";
+import { GoogleGenAI } from "@google/genai";
+import * as testData from "./data.test.json";
 
 function timeSince(dateString: string | undefined): string {
     if (!dateString) return 'Unknown';
@@ -39,6 +41,7 @@ export interface NewsArticle {
     urlToImage: string;
     publishedAt: string;
     content: string;
+    aiSummary?: string;
 }
 
 export interface NewsSource {
@@ -61,7 +64,7 @@ export const getNews = async (
     },
     endpoint: 'top-headlines' | 'everything' | 'top-headlines/sources' = 'top-headlines'
 ) => {
-    let paramsProcessed = `apiKey=${NEWS_API_KEY}`;
+    /*let paramsProcessed = `apiKey=${NEWS_API_KEY}`;
 
     for (const param of Object.keys(params) as (keyof NewsApiParams)[]) {
         paramsProcessed += `&${param}=${params[param]}`;
@@ -72,7 +75,7 @@ export const getNews = async (
 
     if (data.status === 'error') {
         if (data.code == 'rateLimited') {
-            console.log('ERROR : Too many requests.');
+            console.error('ERROR : Too many requests.');
 
             return [] as NewsArticle[];
         }
@@ -84,9 +87,58 @@ export const getNews = async (
 
     for (const article of data.articles as NewsArticle[]) {
         article.publishedAt = timeSince(article.publishedAt);
+        //article.aiSummary = await generateArticleSummary(article);
     }
 
-    return data.articles as NewsArticle[];
+    //return data.articles as NewsArticle[];*/
+    return testData.articles as NewsArticle[];
+}
+
+export async function generateArticleSummary(article: NewsArticle): Promise<string | undefined> {
+    const ai = new GoogleGenAI({
+        apiKey: GEMINI_API_KEY,
+    });
+
+    try {
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: `
+You are a professional news summarization assistant.
+
+Your task is to read and understand the full article at the provided URL and summarize it in 3–5 sentences. The summary should:
+- Use neutral and objective language.
+- Focus on the key facts, events, or developments.
+- Avoid editorializing, assumptions, or personal opinions.
+- Be concise, readable, and informative.
+
+### Article Information:
+- Title: ${article.title}
+- Author: ${article.author || 'Unknown'}
+- Source: ${article.source?.name || 'Unknown'}
+- Publish Date: ${new Date(article.publishedAt).toLocaleDateString()}
+- URL: ${article.url}
+
+### Instructions:
+Please access the article at the URL and generate a summary based on its full content.
+If the article discusses events, mention the main what/when/where/why.
+If it’s opinion or analysis, capture the core argument and key supporting points.
+Keep it brief and informative.
+
+Do not make up information not found in the article.
+`.trim(),
+            config: {
+                thinkingConfig: {
+                    thinkingBudget: 0, // Disables thinking
+                },
+            }
+        });
+
+        return response.text;
+    } catch (e) {
+        console.log(e);
+        return;
+    }
+
 }
 
 export const getTopHeadlines = async () => getNews();

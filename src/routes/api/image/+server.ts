@@ -8,7 +8,7 @@ export async function GET({ url }) {
     try {
       const response = await fetch(imageUrl, {
         headers: {
-          'User-Agent': 'AllNews Image Proxy',
+          'User-Agent': 'TheAllNews Image Proxy',
           'Referer': 'https://theallnews.vercel.app/'
         }
       });
